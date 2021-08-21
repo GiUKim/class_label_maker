@@ -1,4 +1,3 @@
-
 from glob import glob
 import cv2
 import numpy as np
@@ -42,7 +41,9 @@ def mouse_event(event, x, y, flags, param):
         checkbox[cur_idx][y // 40] *= -1
         toolbox = 255 * np.ones((720, 320, 3), np.uint8)
         toolbox = draw_Toolbox_Realtime(toolbox, checkbox[cur_idx])
-        img = cv2.imread(data[cur_idx], cv2.IMREAD_COLOR)
+        img_array = np.fromfile(data[cur_idx], np.uint8)
+        img = cv2.imdecode(img_array, cv2.IMREAD_COLOR)
+        #img = cv2.imread(data[cur_idx], cv2.IMREAD_COLOR)
         img = padding_Resize(img, (720, 1280))
         img = np.hstack((img, toolbox))
         cv2.imshow('label', img)
@@ -113,8 +114,8 @@ bottom_list = ['longpants', 'longpants_shoes', 'longpants_slipper', 'shortpants'
 umbrella_list = ['umbrella']
 handbag_list = ['handbag', 'not_handbag', 'umbrella']
 foot_list = ['shoose', 'slipper']
-category = sys.argv[1]
 
+category = sys.argv[1]
 data = glob(os.getcwd() + '/*.jpg')
 
 # create checkbox of all images
@@ -134,18 +135,19 @@ for num in range(0, len(data)):
     else:
         checkbox.append(np.ones(len(globals()[category+'_list'])))
 
-
 cur_idx = 0
 while True:
     img = data[cur_idx]
     toolbox = 255 * np.ones((720, 320, 3), np.uint8)
     toolbox = draw_Toolbox_Realtime(toolbox, checkbox[cur_idx])
     org_checkbox = checkbox[cur_idx].copy()
-    img = cv2.imread(img, cv2.IMREAD_COLOR)
+    img_array = np.fromfile(img, np.uint8)
+    img = cv2.imdecode(img_array, cv2.IMREAD_COLOR)
+    #img = cv2.imread(img, cv2.IMREAD_COLOR)
     img = padding_Resize(img, (720, 1280))
     img = np.hstack((img, toolbox))
     cv2.imshow('label', img)
-    cv2.setMouseCallback("label", mouse_event, img)
+    cv2.setMouseCallback('label', mouse_event, img)
     key = cv2.waitKey()
     if key == ord('a'):
         if cur_idx > 0:
