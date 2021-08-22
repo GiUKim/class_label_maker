@@ -151,18 +151,18 @@ while True:
     key = cv2.waitKey()
     if key == ord('a'):
         if cur_idx > 0:
-            if not checkListEqual(org_checkbox, checkbox[cur_idx]):
+            if not checkListEqual(org_checkbox, checkbox[cur_idx]) or len(globals()[category+'_list']) == 1:
                 save_label(data[cur_idx], checkbox[cur_idx])
                 print('save file:', data[cur_idx].split('\\')[-1].split('.')[0]+'.txt')
             cur_idx -= 1
     elif key == ord('d'):
         if cur_idx < len(data) - 1:
-            if not checkListEqual(org_checkbox, checkbox[cur_idx]):
+            if not checkListEqual(org_checkbox, checkbox[cur_idx]) or len(globals()[category+'_list']) == 1:
                 save_label(data[cur_idx], checkbox[cur_idx])
                 print('save file:', data[cur_idx].split('\\')[-1].split('.')[0] + '.txt')
             cur_idx += 1
         elif cur_idx == len(data) - 1:
-            if not checkListEqual(org_checkbox, checkbox[cur_idx]):
+            if not checkListEqual(org_checkbox, checkbox[cur_idx]) or len(globals()[category+'_list']) == 1:
                 save_label(data[cur_idx], checkbox[cur_idx])
                 print('save file:', data[cur_idx].split('\\')[-1].split('.')[0] + '.txt')
             cur_idx = 0
