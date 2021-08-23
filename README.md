@@ -5,12 +5,14 @@
 ### pip install opencv-python
 ### pip install pyautogui
 
-
+---
 
 - .jpg 데이터셋이 있는 폴더에 main.py 파일 복제
 - 콘솔로 데이터셋 있는 폴더로 이동
    - python main.py [category name]
 - [category name]의 하위 클래스들은 main.py의 [category name]_list에서 리스트 형태로 지정
+
+--- 
 
 - ',': 이전 이미지로 이동
 - '.': 이후 이미지로 이동
