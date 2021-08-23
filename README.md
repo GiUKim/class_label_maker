@@ -1,6 +1,10 @@
 # class_label_maker
 
 ## usage
+
+### pip install opencv-python
+### pip install pyautogui
+
 - .jpg 데이터셋이 있는 폴더에 main.py 파일 복제
 - 콘솔로 데이터셋 있는 폴더로 이동
    - python main.py [category name]
