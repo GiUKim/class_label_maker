@@ -3,6 +3,7 @@ import cv2
 import numpy as np
 import os
 import sys
+import pyautogui
 
 def checkListEqual(list1, list2):
     if len(list1) != len(list2):
@@ -44,19 +45,19 @@ def put_text_classes(category_list, toolbox, checkbox):
     else:
         for idx in range(0, 18):
             if checkbox[idx] == 1:
-                cv2.putText(toolbox, category_list[idx], (10, 40 + 27 + 40 * idx), font, 0.8, (0, 0, 0), bold[bold_list[idx]], cv2.LINE_AA)
+                cv2.putText(toolbox, category_list[idx], (10, 27 + 40 * idx), font, 0.8, (0, 0, 0), bold[bold_list[idx]], cv2.LINE_AA)
             elif checkbox[idx] == -1:
-                cv2.putText(toolbox, category_list[idx], (10, 40 + 27 + 40 * idx), font, 0.8, (0, 255, 0), bold[bold_list[idx]], cv2.LINE_AA)
+                cv2.putText(toolbox, category_list[idx], (10, 27 + 40 * idx), font, 0.8, (0, 255, 0), bold[bold_list[idx]], cv2.LINE_AA)
         for idx in range(18, 36):
             if checkbox[idx] == 1:
-                cv2.putText(toolbox, category_list[idx], (320 + 10, 40 + 27 + 40 * (idx % 18)), font, 0.8, (0, 0, 0), bold[bold_list[idx]], cv2.LINE_AA)
+                cv2.putText(toolbox, category_list[idx], (320 + 10, 27 + 40 * (idx % 18)), font, 0.8, (0, 0, 0), bold[bold_list[idx]], cv2.LINE_AA)
             elif checkbox[idx] == -1:
-                cv2.putText(toolbox, category_list[idx], (320 + 10, 40 + 27 + 40 * (idx % 18)), font, 0.8, (0, 255, 0), bold[bold_list[idx]], cv2.LINE_AA)
+                cv2.putText(toolbox, category_list[idx], (320 + 10, 27 + 40 * (idx % 18)), font, 0.8, (0, 255, 0), bold[bold_list[idx]], cv2.LINE_AA)
         for idx in range(36, len(category_list)):
             if checkbox[idx] == 1:
-                cv2.putText(toolbox, category_list[idx], (640 + 10, 40 + 27 + 40 * (idx % 18)), font, 0.8, (0, 0, 0), bold[bold_list[idx]], cv2.LINE_AA)
+                cv2.putText(toolbox, category_list[idx], (640 + 10, 27 + 40 * (idx % 18)), font, 0.8, (0, 0, 0), bold[bold_list[idx]], cv2.LINE_AA)
             elif checkbox[idx] == -1:
-                cv2.putText(toolbox, category_list[idx], (640 + 10, 40 + 27 + 40 * (idx % 18)), font, 0.8, (0, 255, 0), bold[bold_list[idx]], cv2.LINE_AA)
+                cv2.putText(toolbox, category_list[idx], (640 + 10, 27 + 40 * (idx % 18)), font, 0.8, (0, 255, 0), bold[bold_list[idx]], cv2.LINE_AA)
     return toolbox
 
 def draw_Toolbox_Realtime(toolbox, checkbox):
@@ -84,23 +85,23 @@ def draw_Toolbox_Realtime(toolbox, checkbox):
     return toolbox
 
 def mouse_event(event, x, y, flags, param):
-    if event == cv2.EVENT_LBUTTONDOWN and x > 960:
+    if event == cv2.EVENT_LBUTTONDOWN and (x > 960 and y > 40):
         if len(globals()[category + '_list']) <= 18:
-            checkbox[cur_idx][y // 40 -1] *= -1
+            checkbox[cur_idx][y // 40 - 1] *= -1
             toolbox = 255 * np.ones((720, 320, 3), np.uint8)
         elif len(globals()[category + '_list']) <= 36:
             if x < 1280:
-                checkbox[cur_idx][y // 40- 1 ] *= -1
+                checkbox[cur_idx][y // 40 - 1 ] *= -1
             else:
                 checkbox[cur_idx][18 + y // 40 - 1] *= -1
             toolbox = 255 * np.ones((720, 640, 3), np.uint8)
         elif len(globals()[category + '_list']) <= 54:
             if x < 1280:
-                checkbox[cur_idx][y // 40] *= -1
+                checkbox[cur_idx][y // 40 - 1] *= -1
             elif x < 1600:
-                checkbox[cur_idx][18 + y // 40] *= -1
+                checkbox[cur_idx][18 + y // 40 - 1] *= -1
             elif x < 1920:
-                checkbox[cur_idx][36 + y // 40] *= -1
+                checkbox[cur_idx][36 + y // 40 - 1] *= -1
             toolbox = 255 * np.ones((720, 960, 3), np.uint8)
         toolbox = draw_Toolbox_Realtime(toolbox, checkbox[cur_idx])
         img_array = np.fromfile(data[cur_idx], np.uint8)
@@ -117,9 +118,11 @@ def mouse_event(event, x, y, flags, param):
             cv2.putText(img, search_key, (960 + 10, 27), cv2.FONT_HERSHEY_SIMPLEX, 0.8, (0, 0, 255), 1, cv2.LINE_AA)
         else:
             cv2.putText(img, "search:", (960 + 10, 27), cv2.FONT_HERSHEY_SIMPLEX, 0.8, (0, 0, 255), 1, cv2.LINE_AA)
-        line = np.zeros((1600, 3), np.uint8)
+        line = np.zeros(img[39].shape, np.uint8)
         img[39] = np.copy(line)
         cv2.imshow('label', img)
+    elif event == cv2.EVENT_RBUTTONDOWN and (x > 960 and y > 40):
+        pyautogui.press('.')
 
 def padding_Resize(img, max_size):
     if img.shape == max_size:
@@ -180,6 +183,10 @@ head_list = ['longhair', 'longhair_cap', 'longhair_glass', 'longhair_glass_mask'
              'longhair_helmet', 'longhair_mask', 'longhair_siga', 'shorthair', 'shorthair_cap',
              'shorthair_glass', 'shorthair_glass_mask', 'shorthair_hat', 'shorthair_helmet',
              'shorthair_mask', 'shorthair_siga', 'umbrella', 'longhair_mask', 'longhair_siga', 'shorthair', 'shorthair_cap',
+             'shorthair_glass', 'shorthair_glass_mask', 'shorthair_hat', 'shorthair_helmet',
+             'shorthair_mask', 'shorthair_siga', 'umbrella', 'longhair_mask', 'longhair_siga', 'shorthair', 'shorthair_cap',
+             'shorthair_glass', 'shorthair_glass_mask', 'shorthair_hat', 'shorthair_helmet',
+             'shorthair_mask', 'shorthair_siga', 'umbrella', 'longhair_mask', 'longhair_siga', 'shorthair', 'shorthair_cap',
              'shorthair_glass', 'shorthair_glass_mask']
 top_list = ['longshirt', 'longshirt_backpack', 'longshirt_crossbag', 'longshirt_handbag',
             'shortshirt', 'shortshirt_backpack', 'shortshirt_crossbag', 'shortshirt_handbag']
@@ -237,7 +244,7 @@ while True:
         cv2.putText(img, "search:", (960 + 10, 27), cv2.FONT_HERSHEY_SIMPLEX, 0.8, (0, 0, 255), 1, cv2.LINE_AA)
 
     cv2.putText(img, 'filename: '+data[cur_idx].split('\\')[-1], (10, 27), cv2.FONT_HERSHEY_SIMPLEX, 0.6, (0, 0, 0), 1, cv2.LINE_AA)
-    line = np.zeros((1600, 3), np.uint8)
+    line = np.zeros(img[39].shape, np.uint8)
     img[39] = np.copy(line)
 
     cv2.imshow('label', img)
@@ -250,6 +257,7 @@ while True:
                 print('save file:', data[cur_idx].split('\\')[-1].split('.')[0]+'.txt')
             cur_idx -= 1
     elif key == ord('.'):
+        rightclick = False
         if cur_idx < len(data) - 1:
             if not checkListEqual(org_checkbox, checkbox[cur_idx]) or len(globals()[category+'_list']) == 1:
                 save_label(data[cur_idx], checkbox[cur_idx])
