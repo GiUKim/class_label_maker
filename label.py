@@ -14,8 +14,8 @@ def checkListEqual(list1, list2):
     return True
 
 def put_text_classes(category_list, toolbox, checkbox):
-    font = [cv2.FONT_HERSHEY_SIMPLEX, cv2.FONT_HERSHEY_TRIPLEX]
-    #print(search_key)
+    font = cv2.FONT_HERSHEY_SIMPLEX
+    bold = [1, 2]
     bold_list = []
     for cls in category_list:
         if cls.find(search_key) >= 0 and search_key is not "":
@@ -26,50 +26,42 @@ def put_text_classes(category_list, toolbox, checkbox):
     if len(globals()[category + '_list']) < 18:
         for idx in range(0, len(category_list)):
             if checkbox[idx] == 1:
-                cv2.putText(toolbox, category_list[idx], (10, 40 + 27 + 40 * idx), font, 0.8, (0, 0, 0), 1, cv2.LINE_AA)
+                cv2.putText(toolbox, category_list[idx], (10, 40 + 27 + 40 * idx), font, 0.8, (0, 0, 0), bold[bold_list[idx]], cv2.LINE_AA)
             elif checkbox[idx] == -1:
-                cv2.putText(toolbox, category_list[idx], (10, 40 + 27 + 40 * idx), font, 0.8, (0, 255, 0), 1, cv2.LINE_AA)
-            # cv2.imshow('t', toolbox)
-            # cv2.waitKey(0)
+                cv2.putText(toolbox, category_list[idx], (10, 40 + 27 + 40 * idx), font, 0.8, (0, 255, 0), bold[bold_list[idx]], cv2.LINE_AA)
 
     elif len(globals()[category + '_list']) < 36:
         for idx in range(0, 18):
             if checkbox[idx] == 1:
-                cv2.putText(toolbox, category_list[idx], (10, 27 + 40 * idx), font[bold_list[idx]], 0.8, (0, 0, 0), 1, cv2.LINE_AA)
+                cv2.putText(toolbox, category_list[idx], (10, 27 + 40 * idx), font, 0.8, (0, 0, 0), bold[bold_list[idx]], cv2.LINE_AA)
             elif checkbox[idx] == -1:
-                cv2.putText(toolbox, category_list[idx], (10, 27 + 40 * idx), font[bold_list[idx]], 0.8, (0, 255, 0), 1, cv2.LINE_AA)
+                cv2.putText(toolbox, category_list[idx], (10, 27 + 40 * idx), font, 0.8, (0, 255, 0), bold[bold_list[idx]], cv2.LINE_AA)
         for idx in range(18, len(category_list)):
             if checkbox[idx] == 1:
-                cv2.putText(toolbox, category_list[idx], (320 + 10, 27 + 40 * (idx % 18)), font[bold_list[idx]], 0.8, (0, 0, 0), 1, cv2.LINE_AA)
+                cv2.putText(toolbox, category_list[idx], (320 + 10, 27 + 40 * (idx % 18)), font, 0.8, (0, 0, 0), bold[bold_list[idx]], cv2.LINE_AA)
             elif checkbox[idx] == -1:
-                cv2.putText(toolbox, category_list[idx], (320 + 10, 27 + 40 * (idx % 18)), font[bold_list[idx]], 0.8, (0, 255, 0), 1, cv2.LINE_AA)
+                cv2.putText(toolbox, category_list[idx], (320 + 10, 27 + 40 * (idx % 18)), font, 0.8, (0, 255, 0), bold[bold_list[idx]], cv2.LINE_AA)
     else:
         for idx in range(0, 18):
             if checkbox[idx] == 1:
-                cv2.putText(toolbox, category_list[idx], (10, 40 + 27 + 40 * idx), font, 0.8, (0, 0, 0), 1, cv2.LINE_AA)
+                cv2.putText(toolbox, category_list[idx], (10, 40 + 27 + 40 * idx), font, 0.8, (0, 0, 0), bold[bold_list[idx]], cv2.LINE_AA)
             elif checkbox[idx] == -1:
-                cv2.putText(toolbox, category_list[idx], (10, 40 + 27 + 40 * idx), font, 0.8, (0, 255, 0), 1, cv2.LINE_AA)
+                cv2.putText(toolbox, category_list[idx], (10, 40 + 27 + 40 * idx), font, 0.8, (0, 255, 0), bold[bold_list[idx]], cv2.LINE_AA)
         for idx in range(18, 36):
             if checkbox[idx] == 1:
-                cv2.putText(toolbox, category_list[idx], (320 + 10, 40 + 27 + 40 * (idx % 18)), font, 0.8, (0, 0, 0), 1, cv2.LINE_AA)
+                cv2.putText(toolbox, category_list[idx], (320 + 10, 40 + 27 + 40 * (idx % 18)), font, 0.8, (0, 0, 0), bold[bold_list[idx]], cv2.LINE_AA)
             elif checkbox[idx] == -1:
-                cv2.putText(toolbox, category_list[idx], (320 + 10, 40 + 27 + 40 * (idx % 18)), font, 0.8, (0, 255, 0), 1, cv2.LINE_AA)
+                cv2.putText(toolbox, category_list[idx], (320 + 10, 40 + 27 + 40 * (idx % 18)), font, 0.8, (0, 255, 0), bold[bold_list[idx]], cv2.LINE_AA)
         for idx in range(36, len(category_list)):
             if checkbox[idx] == 1:
-                cv2.putText(toolbox, category_list[idx], (640 + 10, 40 + 27 + 40 * (idx % 18)), font, 0.8, (0, 0, 0), 1, cv2.LINE_AA)
+                cv2.putText(toolbox, category_list[idx], (640 + 10, 40 + 27 + 40 * (idx % 18)), font, 0.8, (0, 0, 0), bold[bold_list[idx]], cv2.LINE_AA)
             elif checkbox[idx] == -1:
-                cv2.putText(toolbox, category_list[idx], (640 + 10, 40 + 27 + 40 * (idx % 18)), font, 0.8, (0, 255, 0), 1, cv2.LINE_AA)
-        # cv2.imshow('t', toolbox)
-        # cv2.waitKey(0)
+                cv2.putText(toolbox, category_list[idx], (640 + 10, 40 + 27 + 40 * (idx % 18)), font, 0.8, (0, 255, 0), bold[bold_list[idx]], cv2.LINE_AA)
     return toolbox
 
 def draw_Toolbox_Realtime(toolbox, checkbox):
     count = 0
     for i in toolbox:
-        if count == 0:
-            for pixels in i:
-                for pixel in pixels:
-                    pixel = 0
         if (count + 1) % 40 == 0:
             for pixel in i:
                 pixel[0] = 0
@@ -92,9 +84,6 @@ def draw_Toolbox_Realtime(toolbox, checkbox):
     return toolbox
 
 def mouse_event(event, x, y, flags, param):
-    #key2 = cv2.waitKey(delay=1)
-    # if key2 == ord('i'):
-    #     print('input!')
     if event == cv2.EVENT_LBUTTONDOWN and x > 960:
         if len(globals()[category + '_list']) <= 18:
             checkbox[cur_idx][y // 40 -1] *= -1
@@ -116,19 +105,20 @@ def mouse_event(event, x, y, flags, param):
         toolbox = draw_Toolbox_Realtime(toolbox, checkbox[cur_idx])
         img_array = np.fromfile(data[cur_idx], np.uint8)
         img = cv2.imdecode(img_array, cv2.IMREAD_COLOR)
-        #img = cv2.imread(data[cur_idx], cv2.IMREAD_COLOR)
         img = padding_Resize(img, (720, 960))
         img = np.hstack((img, toolbox))
         search_box = 255 * np.ones((40, img.shape[1], 3), np.uint8)
 
-
         for line in search_box:
             line[959] = 1
         img = np.vstack((search_box, img))
+        cv2.putText(img, 'filename: '+data[cur_idx].split('\\')[-1], (10, 27), cv2.FONT_HERSHEY_SIMPLEX, 0.6, (0, 0, 0), 1, cv2.LINE_AA)
         if search_key is not "":
             cv2.putText(img, search_key, (960 + 10, 27), cv2.FONT_HERSHEY_SIMPLEX, 0.8, (0, 0, 255), 1, cv2.LINE_AA)
         else:
-            cv2.putText(img, "Search:", (960 + 10, 27), cv2.FONT_HERSHEY_SIMPLEX, 0.8, (0, 0, 255), 1, cv2.LINE_AA)
+            cv2.putText(img, "search:", (960 + 10, 27), cv2.FONT_HERSHEY_SIMPLEX, 0.8, (0, 0, 255), 1, cv2.LINE_AA)
+        line = np.zeros((1600, 3), np.uint8)
+        img[39] = np.copy(line)
         cv2.imshow('label', img)
 
 def padding_Resize(img, max_size):
@@ -233,7 +223,6 @@ while True:
     org_checkbox = checkbox[cur_idx].copy()
     img_array = np.fromfile(img, np.uint8)
     img = cv2.imdecode(img_array, cv2.IMREAD_COLOR)
-    #img = cv2.imread(img, cv2.IMREAD_COLOR)
     img = padding_Resize(img, (720, 960))
     img = np.hstack((img, toolbox))
 
@@ -242,7 +231,14 @@ while True:
     for line in search_box:
         line[959] = 1
     img = np.vstack((search_box, img))
-    cv2.putText(img, search_key, (960 + 10, 27), cv2.FONT_HERSHEY_DUPLEX, 0.8, (0, 0, 255), 1, cv2.LINE_AA)
+    if search_key is not "":
+        cv2.putText(img, search_key, (960 + 10, 27), cv2.FONT_HERSHEY_SIMPLEX, 0.8, (0, 0, 255), 1, cv2.LINE_AA)
+    else:
+        cv2.putText(img, "search:", (960 + 10, 27), cv2.FONT_HERSHEY_SIMPLEX, 0.8, (0, 0, 255), 1, cv2.LINE_AA)
+
+    cv2.putText(img, 'filename: '+data[cur_idx].split('\\')[-1], (10, 27), cv2.FONT_HERSHEY_SIMPLEX, 0.6, (0, 0, 0), 1, cv2.LINE_AA)
+    line = np.zeros((1600, 3), np.uint8)
+    img[39] = np.copy(line)
 
     cv2.imshow('label', img)
     cv2.setMouseCallback('label', mouse_event, img)
@@ -268,10 +264,5 @@ while True:
         break
     elif key == 8:
         search_key = search_key[:-1]
-        #print(search_key)
     else:
         search_key += chr(key)
-        #print(search_key)
-        #print(chr(key))
-
-
