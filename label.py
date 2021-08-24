@@ -24,14 +24,14 @@ def put_text_classes(category_list, toolbox, checkbox):
         else:
             bold_list.append(0)
 
-    if len(globals()[category + '_list']) < 18:
+    if len(globals()[category + '_list']) <= 18 and len(globals()[category + '_list']) > 0:
         for idx in range(0, len(category_list)):
             if checkbox[idx] == 1:
-                cv2.putText(toolbox, category_list[idx], (10, 40 + 27 + 40 * idx), font, 0.8, (0, 0, 0), bold[bold_list[idx]], cv2.LINE_AA)
+                cv2.putText(toolbox, category_list[idx], (10, 27 + 40 * idx), font, 0.8, (0, 0, 0), bold[bold_list[idx]], cv2.LINE_AA)
             elif checkbox[idx] == -1:
-                cv2.putText(toolbox, category_list[idx], (10, 40 + 27 + 40 * idx), font, 0.8, (0, 255, 0), bold[bold_list[idx]], cv2.LINE_AA)
+                cv2.putText(toolbox, category_list[idx], (10, 27 + 40 * idx), font, 0.8, (0, 255, 0), bold[bold_list[idx]], cv2.LINE_AA)
 
-    elif len(globals()[category + '_list']) < 36:
+    elif len(globals()[category + '_list']) <= 36 and len(globals()[category + '_list']) > 18:
         for idx in range(0, 18):
             if checkbox[idx] == 1:
                 cv2.putText(toolbox, category_list[idx], (10, 27 + 40 * idx), font, 0.8, (0, 0, 0), bold[bold_list[idx]], cv2.LINE_AA)
@@ -42,7 +42,7 @@ def put_text_classes(category_list, toolbox, checkbox):
                 cv2.putText(toolbox, category_list[idx], (320 + 10, 27 + 40 * (idx % 18)), font, 0.8, (0, 0, 0), bold[bold_list[idx]], cv2.LINE_AA)
             elif checkbox[idx] == -1:
                 cv2.putText(toolbox, category_list[idx], (320 + 10, 27 + 40 * (idx % 18)), font, 0.8, (0, 255, 0), bold[bold_list[idx]], cv2.LINE_AA)
-    else:
+    elif len(globals()[category + '_list']) > 36 and len(globals()[category + '_list']) <= 54:
         for idx in range(0, 18):
             if checkbox[idx] == 1:
                 cv2.putText(toolbox, category_list[idx], (10, 27 + 40 * idx), font, 0.8, (0, 0, 0), bold[bold_list[idx]], cv2.LINE_AA)
@@ -75,7 +75,7 @@ def draw_Toolbox_Realtime(toolbox, checkbox):
     if len(globals()[category + '_list']) > 18 and len(globals()[category + '_list']) <= 36:
         for i in range(0, 720):
             toolbox[i][319] = 0
-    elif len(globals()[category + '_list']) <= 54:
+    elif len(globals()[category + '_list']) <= 54 and len(globals()[category + '_list']) > 36:
         for i in range(0, 720):
             toolbox[i][319] = 0
             toolbox[i][639] = 0
