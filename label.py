@@ -24,14 +24,14 @@ def put_text_classes(category_list, toolbox, checkbox):
         else:
             bold_list.append(0)
 
-    if len(globals()[category + '_list']) <= 18 and len(globals()[category + '_list']) > 0:
+    if len(category) <= 18 and len(category) > 0:
         for idx in range(0, len(category_list)):
             if checkbox[idx] == 1:
                 cv2.putText(toolbox, category_list[idx], (10, 27 + 40 * idx), font, 0.8, (0, 0, 0), bold[bold_list[idx]], cv2.LINE_AA)
             elif checkbox[idx] == -1:
                 cv2.putText(toolbox, category_list[idx], (10, 27 + 40 * idx), font, 0.8, (0, 255, 0), bold[bold_list[idx]], cv2.LINE_AA)
 
-    elif len(globals()[category + '_list']) <= 36 and len(globals()[category + '_list']) > 18:
+    elif len(category) <= 36 and len(category) > 18:
         for idx in range(0, 18):
             if checkbox[idx] == 1:
                 cv2.putText(toolbox, category_list[idx], (10, 27 + 40 * idx), font, 0.8, (0, 0, 0), bold[bold_list[idx]], cv2.LINE_AA)
@@ -42,7 +42,7 @@ def put_text_classes(category_list, toolbox, checkbox):
                 cv2.putText(toolbox, category_list[idx], (320 + 10, 27 + 40 * (idx % 18)), font, 0.8, (0, 0, 0), bold[bold_list[idx]], cv2.LINE_AA)
             elif checkbox[idx] == -1:
                 cv2.putText(toolbox, category_list[idx], (320 + 10, 27 + 40 * (idx % 18)), font, 0.8, (0, 255, 0), bold[bold_list[idx]], cv2.LINE_AA)
-    elif len(globals()[category + '_list']) > 36 and len(globals()[category + '_list']) <= 54:
+    elif len(category) > 36 and len(category) <= 54:
         for idx in range(0, 18):
             if checkbox[idx] == 1:
                 cv2.putText(toolbox, category_list[idx], (10, 27 + 40 * idx), font, 0.8, (0, 0, 0), bold[bold_list[idx]], cv2.LINE_AA)
@@ -72,30 +72,30 @@ def draw_Toolbox_Realtime(toolbox, checkbox):
         if count == 720:
             break
 
-    if len(globals()[category + '_list']) > 18 and len(globals()[category + '_list']) <= 36:
+    if len(category) > 18 and len(category) <= 36:
         for i in range(0, 720):
             toolbox[i][319] = 0
-    elif len(globals()[category + '_list']) <= 54 and len(globals()[category + '_list']) > 36:
+    elif len(category) <= 54 and len(category) > 36:
         for i in range(0, 720):
             toolbox[i][319] = 0
             toolbox[i][639] = 0
 
 
-    toolbox = put_text_classes(globals()[category+'_list'], toolbox, checkbox)
+    toolbox = put_text_classes(category, toolbox, checkbox)
     return toolbox
 
 def mouse_event(event, x, y, flags, param):
     if event == cv2.EVENT_LBUTTONDOWN and (x > 960 and y > 40):
-        if len(globals()[category + '_list']) <= 18:
+        if len(category) <= 18:
             checkbox[cur_idx][y // 40 - 1] *= -1
             toolbox = 255 * np.ones((720, 320, 3), np.uint8)
-        elif len(globals()[category + '_list']) <= 36:
+        elif len(category) <= 36:
             if x < 1280:
                 checkbox[cur_idx][y // 40 - 1 ] *= -1
             else:
                 checkbox[cur_idx][18 + y // 40 - 1] *= -1
             toolbox = 255 * np.ones((720, 640, 3), np.uint8)
-        elif len(globals()[category + '_list']) <= 54:
+        elif len(category) <= 54:
             if x < 1280:
                 checkbox[cur_idx][y // 40 - 1] *= -1
             elif x < 1600:
@@ -179,25 +179,14 @@ def save_label(filename, checkbox):
         elif label == 1:
             f.write('0\n')
 
-head_list = ['longhair', 'longhair_cap', 'longhair_glass', 'longhair_glass_mask', 'longhair_hat',
-             'longhair_helmet', 'longhair_mask', 'longhair_siga', 'shorthair', 'shorthair_cap',
-             'shorthair_glass', 'shorthair_glass_mask', 'shorthair_hat', 'shorthair_helmet',
-             'shorthair_mask', 'shorthair_siga', 'umbrella', 'longhair_mask', 'longhair_siga', 'shorthair', 'shorthair_cap',
-             'shorthair_glass', 'shorthair_glass_mask', 'shorthair_hat', 'shorthair_helmet',
-             'shorthair_mask', 'shorthair_siga', 'umbrella', 'longhair_mask', 'longhair_siga', 'shorthair', 'shorthair_cap',
-             'shorthair_glass', 'shorthair_glass_mask', 'shorthair_hat', 'shorthair_helmet',
-             'shorthair_mask', 'shorthair_siga', 'umbrella', 'longhair_mask', 'longhair_siga', 'shorthair', 'shorthair_cap',
-             'shorthair_glass', 'shorthair_glass_mask']
-top_list = ['longshirt', 'longshirt_backpack', 'longshirt_crossbag', 'longshirt_handbag',
-            'shortshirt', 'shortshirt_backpack', 'shortshirt_crossbag', 'shortshirt_handbag']
-bottom_list = ['longpants', 'longpants_shoes', 'longpants_slipper', 'shortpants', 'shortpants_shoes',
-               'shortpants_slipper', 'skirt', 'skirt_shoes', 'skirt_slipper']
-umbrella_list = ['umbrella']
-handbag_list = ['handbag', 'not_handbag', 'umbrella']
-foot_list = ['shoose', 'slipper']
-
-category = sys.argv[1]
+#category = sys.argv[1]
 data = glob(os.getcwd() + '/*.jpg')
+
+f = open('classes.txt', 'r')
+classes = f.readlines()
+category = []
+for c in classes:
+    category.append(c.rstrip('\n'))
 
 # create checkbox of all images
 checkbox = []
@@ -215,16 +204,16 @@ for num in range(0, len(data)):
         checkbox.append(sub_check)
 
     else:
-        checkbox.append(np.ones(len(globals()[category+'_list'])))
+        checkbox.append(np.ones(len(category)))
 
 cur_idx = 0
 while True:
     img = data[cur_idx]
-    if len(globals()[category + '_list']) <= 18:
+    if len(category) <= 18:
         toolbox = 255 * np.ones((720, 320, 3), np.uint8)
-    elif len(globals()[category + '_list']) <= 36:
+    elif len(category) <= 36:
         toolbox = 255 * np.ones((720, 640, 3), np.uint8)
-    elif len(globals()[category + '_list']) <= 54:
+    elif len(category) <= 54:
         toolbox = 255 * np.ones((720, 960, 3), np.uint8)
     toolbox = draw_Toolbox_Realtime(toolbox, checkbox[cur_idx])
     org_checkbox = checkbox[cur_idx].copy()
@@ -252,21 +241,17 @@ while True:
     key = cv2.waitKey()
     if key == ord(','):
         if cur_idx > 0:
-            if not checkListEqual(org_checkbox, checkbox[cur_idx]) or len(globals()[category+'_list']) == 1:
-                save_label(data[cur_idx], checkbox[cur_idx])
-                print('save file:', data[cur_idx].split('\\')[-1].split('.')[0]+'.txt')
+            save_label(data[cur_idx], checkbox[cur_idx])
+            print('save file:', data[cur_idx].split('\\')[-1].split('.')[0]+'.txt')
             cur_idx -= 1
     elif key == ord('.'):
-        rightclick = False
         if cur_idx < len(data) - 1:
-            if not checkListEqual(org_checkbox, checkbox[cur_idx]) or len(globals()[category+'_list']) == 1:
-                save_label(data[cur_idx], checkbox[cur_idx])
-                print('save file:', data[cur_idx].split('\\')[-1].split('.')[0] + '.txt')
+            save_label(data[cur_idx], checkbox[cur_idx])
+            print('save file:', data[cur_idx].split('\\')[-1].split('.')[0] + '.txt')
             cur_idx += 1
         elif cur_idx == len(data) - 1:
-            if not checkListEqual(org_checkbox, checkbox[cur_idx]) or len(globals()[category+'_list']) == 1:
-                save_label(data[cur_idx], checkbox[cur_idx])
-                print('save file:', data[cur_idx].split('\\')[-1].split('.')[0] + '.txt')
+            save_label(data[cur_idx], checkbox[cur_idx])
+            print('save file:', data[cur_idx].split('\\')[-1].split('.')[0] + '.txt')
             cur_idx = 0
     elif key == 27:
         break
